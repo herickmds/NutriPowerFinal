@@ -1,0 +1,122 @@
+{% extends 'NutriPower.html' %} {% block content %}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script>
+  function onchangeBusca(busca) {
+    var nome = busca.value;
+    window.location.href = "/Paciente/BuscarPaciente/?nome=" + nome;
+    alert(nome)
+  }
+</script>
+
+{% if msg_error %}
+<pre style="color:red">{{ msg_error}}</pre> {% endif %}
+
+<form action="/Paciente/BuscarPaciente/" method="GET">
+  <div style="width: 450px;" class="form-group ui-widget">
+    <label>Buscar Paciente:</label>
+    <input type="search" class="form-group input-sm" id="busca" aria-controls="example1" name="busca" onchange="onchangeBusca(this)">
+  </div>
+
+</form>
+
+
+{% if paciente %}
+
+<div style="width: 550px; " class="box box-primary">
+
+  <form role="form" method="POST" action="/Paciente/ExibirPaciente/" enctype="multipart/form-data">
+    <div class="box-body">
+      <div class="form-group">
+
+        <div class="container">
+            {% if paciente.foto %}
+            <div class="col-lg-4">
+                <img style="height: 150px;width: 150px;" class="img-circle" src="{{paciente.foto}}">
+            </div>
+            {% endif %}
+        </div>
+
+        <div style="width: 450px;" class="form-group">
+          <label>Nome</label>
+          <output type="text" class="form-control">{{paciente.nome}}</output>
+        </div>
+
+        <div style="width: 150px" class="form-group">
+          <label>Idade</label>
+          <output type="text" class="form-control">{{paciente.idade}}</output>
+        </div>
+
+        <div style="width: 150px;" class="form-group">
+          <label>Sexo</label>
+          <output class="form-control">{{paciente.sexo}}</output>
+        </div>
+
+        <div style="width: 450px;" class="form-group">
+          <label>Altura(em metros)</label>
+          <output style="width: 150px" type="text" class="form-control">{{paciente.altura}}</output>
+        </div>
+
+        <div style="width: 450px;" class="form-group">
+          <label>Peso(em Kg)</label>
+          <output type="text" class="form-control">{{paciente.peso}}</output>
+        </div>
+
+        <div style="width: 450px;" class="form-group">
+          <label>Email</label>
+          <output type="text" class="form-control">{{paciente.email}}</output>
+        </div>
+
+        <div style="width: 450px;" class="form-group">
+          <label>Telefone</label>
+          <output type="text" class="form-control">{{paciente.telefone}}</output>
+        </div>
+
+
+        <div style="width: 450px;" class="form-group">
+          <label>CPF</label>
+          <output type="text" class="form-control">{{paciente.cpf}}</output>
+        </div>
+
+
+        <div style="width: 450px;" class="form-group">
+          <label>Nível de Atividade Física</label>
+          <output class="form-control">{{paciente.atividade_fisica}}</output>
+        </div>
+
+
+      </div>
+    </div>
+    {% if msg %}
+    <div class="alert alert-info">
+      <strong>Info!</strong> {{msg}}.
+    </div>
+    {% endif %}
+  </form>
+
+ 
+</div>
+
+<form action="/Paciente/RemoverPaciente/{{paciente.id_paciente}}/" method="POST">
+  <button type="submit" class="btn btn-danger pull-right">Remover</button>
+</form>
+
+{% endif %}
+
+
+<div style="margin-top: 300px">
+  <button type="submit" class="btn btn-default">
+    <a href="/" style="color: black">Cancelar</a>
+  </button>
+
+</div>
+{% endblock %} {% block scripts %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function () {
+    var pacientes = JSON.parse('{{paciente|safe}}');
+    $("#busca").autocomplete({
+      source: pacientes
+    });
+  });
+</script> {% endblock %}

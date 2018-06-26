@@ -1,0 +1,28 @@
+{% extends 'NutriPower.html' %} {% block content %}
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+{% if msg_error %}
+<pre style="color:red">{{ msg_error}}</pre> {% endif %}
+
+<form action="/AvaliacaoFisica/CadastroAvaliacao/" method="POST">
+  <div style="width: 450px;" class="form-group ui-widget">
+    <label>Buscar Paciente:</label>
+    <input type="search" class="form-group input-sm" id="busca" aria-controls="example1" name="busca" onchange="onchangeBusca(this)">
+  </div>
+  <button type="submit" class="btn btn-info">Buscar</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  $(function () {
+    var pacientes = JSON.parse('{{pacientes|safe}}');
+    $("#busca").autocomplete({
+      source: pacientes
+    });
+  });
+</script> {% endblock %}
