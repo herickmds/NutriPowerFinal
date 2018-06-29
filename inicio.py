@@ -12,7 +12,7 @@ app = inicio_pages
 
 @app.route('/inicio/', methods=['GET', 'POST'])
 def upload_file():
-    lista_img = files_path("C:\NutriPower\static\dist\imagens")
+    lista_img = files_path("C:\NutriPowerFinal\static\dist\imagens")
     return render_template("inicio.html" , imagens=lista_img)
 
 def files_path(path):
